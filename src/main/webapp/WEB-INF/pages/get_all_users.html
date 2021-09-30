@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <title>Users</title>
+</head>
+<style>
+  body {
+    background: #6f8d9e;
+  }
+  table {
+    border: 3px solid SteelBlue;
+    background-color: #add8e6;
+    width: 40%;
+  }
+  td {
+    height: 50px;
+    padding: 5px 30px 5px 5px;
+    border: 2px solid SteelBlue;
+  }
+  th {
+    padding: 10px;
+    height: 70px;
+    border:2px solid SteelBlue; /* стили для ячеек-заголовков */
+  }
+  .button{
+    text-align: center;
+  }
+</style>
+<body>
+<div th:switch="${users}" class ="button">
+  <h2 th:case="null">No users found!</h2>
+  <div th:case="*">
+    <h1>Users</h1>
+    <table align="center">
+      <thead>
+      <tr>
+        <th>Id</th>
+        <th>First name</th>
+        <th>Last name</th>
+        <th>Email</th>
+        <th>Age</th>
+        <th>Read</th>
+        <th>Edit</th>
+        <th>Delete</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="user : ${users}">
+        <td th:text="${user.id}"></td>
+        <td th:text="${user.username}"></td>
+        <td th:text="${user.name}"></td>
+        <td th:text="${user.surname}"></td>
+        <td th:text="${user.email}"></td>
+        <td th:text="${user.age}"></td>
+        <td>
+          <form th:action="@{/admin/{id} (id=${user.getId()})}">
+            <input type="submit" value="Read"/>
+          </form>
+        </td>
+        <td>
+          <form th:action="@{/admin/{id}/edit (id=${user.getId()})}">
+            <input type="submit" value="Edit"/>
+          </form>
+        </td>
+        <td>
+          <form th:method="DELETE" th:action="@{/admin/{id} (id=${user.getId()})}">
+            <input type="submit" value="Delete">
+          </form>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <br>
+  <form th:action="@{/admin/new_user}">
+    <input type="submit" value="Create new User"/>
+  </form>
+
+  <br>
+  <form th:action="@{/logout}">
+    <input type="submit" value="Logout"/>
+  </form>
+
+</div>
+</body>
+</html>
