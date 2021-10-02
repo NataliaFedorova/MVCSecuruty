@@ -5,6 +5,7 @@ import web.model.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
@@ -38,7 +39,17 @@ public class UserDaoImpl implements UserDao{
 
     @Override
     public void updateUser(Long id, User user) {
-        entityManager.merge(user);
+        Query query = entityManager.createQuery("UPDATE User set username=:username, name=:name, " +
+                                                "surname=:surname, email=:email, age=:age, password=:password WHERE id=:id");
+        query.setParameter("id", user.getId());
+        query.setParameter("username",user.getUsername());
+        query.setParameter("name",user.getName());
+        query.setParameter("surname",user.getSurname());
+        query.setParameter("email",user.getEmail());
+        query.setParameter("age",user.getAge());
+        query.setParameter("password",user.getPassword());
+
+        query.executeUpdate();
     }
 
     @Override
