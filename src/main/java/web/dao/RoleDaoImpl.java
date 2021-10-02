@@ -5,6 +5,7 @@ import web.model.Role;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Repository
@@ -29,12 +30,14 @@ public class RoleDaoImpl implements  RoleDao{
     }
 
     @Override
-    public void removeRoleById(Long id) {
-        entityManager.remove(entityManager.find(Role.class, id));
+    public Role findRoleById(Long id) {
+        return entityManager.find(Role.class, id);
     }
 
     @Override
-    public Role findRoleById(Long id) {
-        return entityManager.find(Role.class, id);
+    public Role findRoleByName(String name) {
+        TypedQuery<Role> queryRole = entityManager.createQuery("select r from Role r where r.roleName=:role",
+                Role.class).setParameter("role", name);
+        return queryRole.getSingleResult();
     }
 }
