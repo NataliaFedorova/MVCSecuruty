@@ -12,7 +12,7 @@ public interface RoleService {
 
     void updateRole(Role role);
 
-    void removeRoleById(Long id);
-
     Role findRoleById(Long id);
+
+    Role findRoleByName(String name);
 }
