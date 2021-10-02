@@ -34,14 +34,14 @@ public class RoleServiceImpl implements RoleService{
     }
 
     @Override
-    @Transactional
-    public void removeRoleById(Long id) {
-        roleDao.removeRoleById(id);
+    @Transactional(readOnly = true)
+    public Role findRoleById(Long id) {
+        return roleDao.findRoleById(id);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Role findRoleById(Long id) {
-        return roleDao.findRoleById(id);
+    public Role findRoleByName(String name) {
+        return roleDao.findRoleByName(name);
     }
 }
